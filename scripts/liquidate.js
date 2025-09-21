@@ -2,7 +2,8 @@ import pkg from 'hardhat';
 const { ethers } = pkg;
 
 // Aave v3 Polygon addresses
-const AAVE_POOL_ADDRESSES_PROVIDER = "0xa97684ead0e402dC232d5A977953DF7ECBaB3CDb";
+// Replace this address with the output from deployMocks.js when running locally
+const AAVE_POOL_ADDRESSES_PROVIDER = "<REPLACE_WITH_LOCAL_MOCK_ADDRESS_PROVIDER>";
 
 async function main() {
     console.log("🚀 Starting Flash Loan Liquidation Bot...");
@@ -12,14 +13,22 @@ async function main() {
     console.log("Deployer address:", deployer.address);
     console.log("Deployer balance:", ethers.formatEther(await ethers.provider.getBalance(deployer.address)), "MATIC");
 
-    // Deploy the Liquidator contract
-    console.log("📦 Deploying Liquidator contract...");
-    const Liquidator = await ethers.getContractFactory("Liquidator");
-    const liquidator = await Liquidator.deploy(AAVE_POOL_ADDRESSES_PROVIDER);
-    await liquidator.waitForDeployment();
-    
-    const liquidatorAddress = await liquidator.getAddress();
-    console.log("✅ Liquidator deployed at:", liquidatorAddress);
+    // Deploy the Liquidator contract with error handling
+    try {
+        console.log("📦 Deploying Liquidator contract...");
+        const Liquidator = await ethers.getContractFactory("Liquidator");
+        console.log("Factory created. Deploying with address provider:", AAVE_POOL_ADDRESSES_PROVIDER);
+        const liquidator = await Liquidator.deploy(AAVE_POOL_ADDRESSES_PROVIDER);
+        await liquidator.waitForDeployment();
+        const liquidatorAddress = await liquidator.getAddress();
+        console.log("✅ Liquidator deployed at:", liquidatorAddress);
+    } catch (deployError) {
+        console.error("❌ Deployment failed! Details:", deployError);
+        if (deployError.data) {
+            console.error("Revert data:", deployError.data);
+        }
+        throw deployError;
+    }
 
     // Example liquidation parameters (you would get these from scanning)
     const exampleLiquidation = {

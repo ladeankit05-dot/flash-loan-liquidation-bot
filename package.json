@@ -24,6 +24,6 @@
     "ethers": "^6.15.0",
     "hardhat": "^2.26.3"
   },
-  "description": "",
+  "description": "Flash Loan Liquidation Bot for Aave v3 on Polygon # Flash Loan Liquidation Bot",
   "type": "module"
 }
