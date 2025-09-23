@@ -7,7 +7,7 @@ export default {
   networks: {
     polygon: {
       url: process.env.POLYGON_RPC || "https://polygon-rpc.com",
-      accounts: process.env.PRIVATEKEY ? [process.env.PRIVATEKEY] : []
+      accounts: process.env.PRIVATE_KEY ? [process.env.PRIVATE_KEY] : []
     },
     mumbai: {
       url: "https://rpc-mumbai.maticvigil.com",
