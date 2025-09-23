@@ -8,6 +8,14 @@ export default {
     polygon: {
       url: process.env.POLYGON_RPC || "https://polygon-rpc.com",
       accounts: process.env.PRIVATEKEY ? [process.env.PRIVATEKEY] : []
-    }
+    },
+    mumbai: {
+      url: "https://rpc-mumbai.maticvigil.com",
+      accounts: process.env.PRIVATE_KEY ? [process.env.PRIVATE_KEY] : [],
+    },
+    amoy: {
+      url: "https://rpc-amoy.polygon.technology",
+      accounts: process.env.PRIVATE_KEY ? [process.env.PRIVATE_KEY] : [],
+    },
   }
 };
